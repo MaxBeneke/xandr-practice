@@ -1,23 +1,25 @@
-import logo from './logo.svg';
+import React, {useState, useEffect} from 'react'
 import './App.css';
+import Form from './Form'
+import Display from './Display'
+
 
 function App() {
+  const [dogs, setDogs] = useState([]);
+  const [title, setTitle] = useState("Wow! Dogs!");
+
+  useEffect(() => {
+    fetch('https://dog.ceo/api/breeds/image/random/3')
+      .then(r => r.json())
+      .then(data => setDogs(data.message))
+  }, [])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Welcome To Dogs</h1>
+      <Form setDogs={setDogs} setTitle={setTitle} />
+      <Display title={title} dogs={dogs} />
+
     </div>
   );
 }
